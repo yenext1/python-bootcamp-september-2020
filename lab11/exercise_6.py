@@ -16,7 +16,7 @@ def guess():
         except Exception:
             print("Please choose numbers")
 
-print(type(answer))
+
 while answer != rand_num:
     if should_i_fake_it(fake_answer_ratio):
         print("Aim lower" if answer < rand_num else "Aim higher")
