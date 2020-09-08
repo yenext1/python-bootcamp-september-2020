@@ -10,3 +10,11 @@ while user_input :
 print("You wrote me such beautiful things:")
 for t in text:
     print(t)
+
+"""
+Uri's comments:
+==============
+
+* This code works, but it doesn't print the lines in reverse order.
+  
+"""
