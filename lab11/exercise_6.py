@@ -27,5 +27,11 @@ while answer != rand_num:
 
 print("That's right!")
 
+"""
+Uri's comments:
+==============
 
-
+* "answer" is undefined which raises an exception. Please try again.
+  PyCharm also warns about it.
+  
+"""

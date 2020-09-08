@@ -17,3 +17,13 @@ def return_max(numbers):
 
 
 print (f"The largest number is: {return_max(num_arr)}")
+
+"""
+Uri's comments:
+==============
+
+* Very good! This code works.
+* Python has the function "max", and it's better to use it than implementing
+  your own solution.
+  
+"""
