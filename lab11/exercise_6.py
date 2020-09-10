@@ -31,7 +31,8 @@ print("That's right!")
 Uri's comments:
 ==============
 
-* "answer" is undefined which raises an exception. Please try again.
-  PyCharm also warns about it.
-  
+* Very good! This code works.
+* It's better to add a space in the input after "Guess which number I chose...", 
+  so that the user's input will be separated from the last word of the message.
+
 """
