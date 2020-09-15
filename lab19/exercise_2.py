@@ -12,3 +12,16 @@ print("The following grades are higher than the average")
 for grade in grades:
     if int(grade) > int(avg):
         print(grade)
+
+"""
+Uri's comments:
+==============
+
+* Very good! This code works.
+* Notice that the assignment expects exactly 20 grades. You should check that
+  the number of grades is 20 and display an error message if not. (for example if
+  it's 21).
+* If the number of grades is not exactly 20 in the command line, it's better
+  to display an error message and quit.
+
+"""
