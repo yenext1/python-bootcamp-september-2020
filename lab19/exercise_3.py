@@ -13,3 +13,13 @@ for name in names[1:]:
         print(f"{name} IP address is {hosts_data[name]}")
     except KeyError:
         print(f"{name} is not in hosts file")
+
+"""
+Uri's comments:
+==============
+
+* Very good! This code works.
+* It's better to put your data files in a separate folder and not with
+  the code.
+
+"""

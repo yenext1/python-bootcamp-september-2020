@@ -9,3 +9,11 @@ with open("anagram.txt", 'r', encoding="UTF-8") as f:
 
 for key, value in results.items():
     print(value[:-1])
+
+"""
+Uri's comments:
+==============
+
+* Very good! This code works.
+
+"""
