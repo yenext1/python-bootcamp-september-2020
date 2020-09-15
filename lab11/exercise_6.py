@@ -26,3 +26,14 @@ while answer != rand_num:
     answer = guess()
 
 print("That's right!")
+
+
+"""
+Uri's comments:
+==============
+
+* Very good! This code works.
+* It's better to add a space in the input after "Guess which number I chose...", 
+  so that the user's input will be separated from the last word of the message.
+
+"""
