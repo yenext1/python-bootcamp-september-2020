@@ -6,3 +6,5 @@ r = requests.get(url)
 soup = BeautifulSoup(r.text)
 for link in soup.select('a.smallheader'):
     print(link.text)
+
+
