@@ -3,12 +3,11 @@ class Summer():
     def __init__(self):
         self.total = 0
 
-    def add(self, *arg):
-        for n in arg:
-            try:
-                self.total += int(n)
-            except ValueError:
-                print(f"{n} is not a number")
+    # Using type hints and sum we can simplify this method
+    # Please watch the type hints lesson here for more info:
+    # https://www.tocode.co.il/bundles/advanced-python3/lessons/type-hints
+    def add(self, *numbers: int):
+        self.total += sum(numbers)
 
     def print_total(self):
         print(self.total)
