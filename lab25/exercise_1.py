@@ -1,5 +1,7 @@
 import collections
 from random import randint
+import re
+import time
 
 
 class Score:
@@ -38,13 +40,25 @@ class BasePlayer:
 class HumanPlayer(BasePlayer):
     def __init__(self, score_keeper):
         super().__init__(score_keeper)
-        self.name = "Joe"
+        self.name = "Player"
 
-    def next_move(self, board):
+    def next_move(self, board, msg=False):
+        if msg:
+            print(msg)
         cell = input("What's your next move? Type the square position (format X,Y) ")
-        x = int(cell.split(",")[0])-1
-        y = int(cell.split(",")[1])-1
-        board.change_status(x, y, "x")
+        self.validate_move(cell, board)
+
+    def validate_move(self, cell, board):
+        pattern = re.compile(r"[1-3]\,[1-3]")
+        if pattern.match(cell):
+            x = int(cell.split(",")[0]) - 1
+            y = int(cell.split(",")[1]) - 1
+            if board.status[y][x] == ".":
+                board.change_status(x, y, "x")
+            else:
+                self.next_move(board, "Oops, the cell you chose is not empty")
+        else:
+            self.next_move(board, "Oops, your input didn't match the format X,Y (for example type 1,3)")
 
 
 class AIPlayer(BasePlayer):
@@ -58,20 +72,21 @@ class AIPlayer(BasePlayer):
         empty_cell = self.find_empty_cell(board)
         board.change_status(empty_cell[0], empty_cell[1], "o")
 
-    def find_empty_cell(self, board):
+    @staticmethod
+    def find_empty_cell(board):
         x = randint(0, 2)
         y = randint(0, 2)
         while board.status[y][x] != ".":
             x = randint(0, 2)
             y = randint(0, 2)
-        return [x,y]
+        return [x, y]
 
 
 class Game:
-
-    def __init__(self):
-        self.score_keeper = Score()
+    def __init__(self, name="Player", sk=Score()):
+        self.score_keeper = sk
         self.h = HumanPlayer(self.score_keeper)
+        self.h.name = name
         self.a = AIPlayer(self.score_keeper)
         self.board = Board()
         self.start_game()
@@ -79,9 +94,12 @@ class Game:
     player1_turn = True
 
     def start_game(self):
-        name = input("What is your name? ")
-        self.h.name = name
-        print("You are x")
+        if self.h.name == "Player":
+            name = input("What is your name? ")
+            self.h.name = name
+            time.sleep(1)
+            print("In this tic-tac-toe game, you are x, the computer is o")
+            time.sleep(0.5)
         player1 = self.choose_random_player()
         player2 = self.h if player1.name == "Computer" else self.a
         print(f"The first player is {player1.name}")
@@ -95,38 +113,44 @@ class Game:
         while not self.check_win(board):
             if self.player1_turn:
                 player1.next_move(self.board)
-                self.player1_turn= False
+                self.player1_turn = False
             else:
                 player2.next_move(self.board)
                 self.player1_turn = True
-        if self.check_win(board)=="It's a tie":
+        if self.check_win(board) == "It's a tie":
             print("It's a tie")
-            new_game = Game()
+            self.end_game()
         else:
-            winner = player2 if(self.player1_turn) else player1
+            winner = player2 if (self.player1_turn) else player1
             print(f"{winner.name} won!")
             winner.score.game_over(True, winner.name)
-            print(self.a.score.score)
-            new_game = Game()
+            self.end_game()
 
-
-    def check_win(self, board):
-        for i in range(0,2):
+    @staticmethod
+    def check_win(board):
+        for i in range(0, 3):
             if board.status[i][0] != "." and board.status[i][0] == board.status[i][1] == board.status[i][2]:
                 return True
 
             elif board.status[0][i] != "." and board.status[0][i] == board.status[1][i] == board.status[2][i]:
                 return True
 
-            elif board.status[0][0] != "." and board.status[0][0] == board.status[1][1] == board.status[2][2] != ".":
+            elif board.status[0][0] != "." and board.status[0][0] == board.status[1][1] == board.status[2][2]:
                 return True
 
-            elif board.status[0][2] != "." and board.status[0][2] == board.status[1][1] == board.status[2][0] != ".":
+            elif board.status[0][2] != "." and board.status[0][2] == board.status[1][1] == board.status[2][0]:
                 return True
 
         while '.' in [j for i in board.status for j in i]:
             return False
         return "It's a tie"
 
+    def end_game(self):
+        time.sleep(1)
+        print(f"The score is {dict(self.a.score.score)}")
+        time.sleep(0.5)
+        print("Let's play another one")
+        Game(self.h.name)
 
-new_game = Game()
+
+Game()
