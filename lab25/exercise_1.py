@@ -2,6 +2,7 @@ import collections
 from random import randint
 import re
 import time
+from typing import Literal
 
 
 class Score:
@@ -17,7 +18,9 @@ class Board:
     def __init__(self):
         self.status = [['.', '.', '.'], ['.', '.', '.'], ['.', '.', '.']]
 
-    def change_status(self, x, y, sign):
+    Sign = Literal["x", "o"]
+
+    def change_status(self, x, y, sign: Sign):
         self.status[y][x] = sign
         self.print_board()
 
@@ -42,14 +45,14 @@ class HumanPlayer(BasePlayer):
         super().__init__(score_keeper)
         self.name = "Player"
 
-    def next_move(self, board, msg=False):
+    def next_move(self, board, msg=""):
         if msg:
             print(msg)
-        cell = input("What's your next move? Type the square position (format X,Y) ")
+        cell = input(f"{self.name}, what's your next move? Type the square position (format X,Y) ")
         self.validate_move(cell, board)
 
     def validate_move(self, cell, board):
-        pattern = re.compile(r"[1-3]\,[1-3]")
+        pattern = re.compile(r'[1-3],[1-3]')
         if pattern.match(cell):
             x = int(cell.split(",")[0]) - 1
             y = int(cell.split(",")[1]) - 1
@@ -121,7 +124,7 @@ class Game:
             print("It's a tie")
             self.end_game()
         else:
-            winner = player2 if (self.player1_turn) else player1
+            winner = player2 if self.player1_turn else player1
             print(f"{winner.name} won!")
             winner.score.game_over(True, winner.name)
             self.end_game()
@@ -149,7 +152,7 @@ class Game:
         time.sleep(1)
         print(f"The score is {dict(self.a.score.score)}")
         time.sleep(0.5)
-        print("Let's play another one")
+        print("Let's play another game")
         Game(self.h.name)
 
 
