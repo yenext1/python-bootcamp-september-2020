@@ -32,8 +32,10 @@ class Board:
 
 
 class BasePlayer:
-
-    def __init__(self, score_keeper):
+    def __init__(self, score_keeper, name):
+        # We can move the assignment to self.name up here,
+        # and just pass values from the subclasses
+        self.name = name
         self.score = score_keeper
 
     def game_over(self, win):
@@ -42,18 +44,32 @@ class BasePlayer:
 
 class HumanPlayer(BasePlayer):
     def __init__(self, score_keeper):
-        super().__init__(score_keeper)
-        self.name = "Player"
+        super().__init__(score_keeper, "Player")
 
     def next_move(self, board, msg=""):
+        # Where do you call next_move without a message?
         if msg:
             print(msg)
         cell = input(f"{self.name}, what's your next move? Type the square position (format X,Y) ")
         self.validate_move(cell, board)
 
     def validate_move(self, cell, board):
+        # I would use:
+        # try:
+        #     x, y = [int(i) - 1 for i in cell.split(',')]
+        #     board.change_status(x, y, "x")
+        # except CellNotEmpty as e:
+        #     self.next_move(board, "Oops the cell is not empty")
+        # except ValueError as e:
+        #     self.next_move(board, "Oops, your input didn't match the format X,Y (for example type 1,3)")
+        #
+        # Of course you will need to refactor a bit so the method CellNotEmpty would raise an exception
+        #
+        # Generally we would say in python it's easier to handle an exception than to check everything upfront
+
         pattern = re.compile(r'[1-3],[1-3]')
         if pattern.match(cell):
+
             x = int(cell.split(",")[0]) - 1
             y = int(cell.split(",")[1]) - 1
             if board.status[y][x] == ".":
@@ -67,8 +83,7 @@ class HumanPlayer(BasePlayer):
 class AIPlayer(BasePlayer):
 
     def __init__(self, score_keeper):
-        super().__init__(score_keeper)
-        self.name = "Computer"
+        super().__init__(score_keeper, "Computer")
 
     def next_move(self, board):
         print("Computer is making its move")
