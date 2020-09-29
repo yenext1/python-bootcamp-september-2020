@@ -6,8 +6,16 @@ class Player:
         self.name = input("Hi, what is your name? ")
 
     def next_move(self, board, game):
+        # It would have been better to have next_move return only one card
+        # that way you can show the card every time it is selected,
+        # and check if you have a pair when someone flips the second card
+        # all inside the game class
         first = self.turn_card("first",board)
         second = self.turn_card("second",board)
+        
+        # The function next_move should focus on getting the next move from the user
+        # and it'll be better to keep it clean from game logic
+        # (so we'll be able to reuse it for other games)
         if first == second:
             self.flip(first,board)
         else:
