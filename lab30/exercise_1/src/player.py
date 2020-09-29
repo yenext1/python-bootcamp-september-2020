@@ -3,13 +3,11 @@ from time import sleep
 
 class Player:
     def __init__(self):
-        # self.name = input("Hi, what is your name? ")
-        self.name = "Yonatan"
+        self.name = input("Hi, what is your name? ")
 
     def next_move(self, board, game):
         first = self.turn_card("first",board)
         second = self.turn_card("second",board)
-        print(f"first: {first}, second {second}")
         if first == second:
             self.flip(first,board)
         else:
