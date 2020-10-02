@@ -51,6 +51,6 @@ class Google:
         self.driver.find_element_by_xpath(
             '//*[@id="AFB3siagZNXnPzPSEnBX46Q78DgwZFqbPGbrPhKxROBGs13evevzFTgbt-wfygR9wiWLsrTxhO7n:1600948746987"]/td/form/table/tbody/tr/td[7]/a/b/b/b').click()
         #self.driver.close()
-username = 'tunnnel59@gmail.com'
-password = 'VeryShortad1!'
+username = ''
+password = ''
 Google(username, password)
